@@ -1,0 +1,12 @@
+{
+  "_fv": 13,
+  "_type": "keybind",
+  "definition": {
+    "triggerKey": "Y",
+    "keyBindingName": "Tecla Accesorio",
+    "keyBindingCategoryKey": "ui",
+    "onKeyPressed": {
+      "name": "TeclaAccesorioOnKeyPressed"
+    }
+  }
+}
