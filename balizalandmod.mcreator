@@ -136,6 +136,15 @@
           }
         ]
       }
+    },
+    {
+      "name": "SwordType",
+      "type": "overlay",
+      "sortid": 10,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "sword_type"
     }
   ],
   "variable_elements": [],
