@@ -251,7 +251,7 @@
       "name": "CambioEscudoGuiAbrir",
       "type": "procedure",
       "sortid": 14,
-      "compiles": true,
+      "compiles": false,
       "locked_code": false,
       "ids": {},
       "registry_name": "cambio_escudo_gui_abrir",
