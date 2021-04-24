@@ -22,7 +22,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.inventory.container.ContainerType;
@@ -84,7 +83,7 @@ public class EscudoGuiGui extends BalizalandmodModElements.ModElement {
 			super(containerType, id);
 			this.entity = inv.player;
 			this.world = inv.player.world;
-			this.internal = new ItemStackHandler(3);
+			this.internal = new ItemStackHandler(1);
 			BlockPos pos = null;
 			if (extraData != null) {
 				pos = extraData.readBlockPos();
@@ -122,15 +121,7 @@ public class EscudoGuiGui extends BalizalandmodModElements.ModElement {
 					}
 				}
 			}
-			this.customSlots.put(0, this.addSlot(new SlotItemHandler(internal, 0, 34, 26) {
-				@Override
-				public boolean isItemValid(ItemStack stack) {
-					return (new ItemStack(Items.BONE, (int) (1)).getItem() == stack.getItem());
-				}
-			}));
-			this.customSlots.put(1, this.addSlot(new SlotItemHandler(internal, 1, 79, 26) {
-			}));
-			this.customSlots.put(2, this.addSlot(new SlotItemHandler(internal, 2, 124, 26) {
+			this.customSlots.put(0, this.addSlot(new SlotItemHandler(internal, 0, 78, 27) {
 			}));
 			int si;
 			int sj;
@@ -157,18 +148,18 @@ public class EscudoGuiGui extends BalizalandmodModElements.ModElement {
 			if (slot != null && slot.getHasStack()) {
 				ItemStack itemstack1 = slot.getStack();
 				itemstack = itemstack1.copy();
-				if (index < 3) {
-					if (!this.mergeItemStack(itemstack1, 3, this.inventorySlots.size(), true)) {
+				if (index < 1) {
+					if (!this.mergeItemStack(itemstack1, 1, this.inventorySlots.size(), true)) {
 						return ItemStack.EMPTY;
 					}
 					slot.onSlotChange(itemstack1, itemstack);
-				} else if (!this.mergeItemStack(itemstack1, 0, 3, false)) {
-					if (index < 3 + 27) {
-						if (!this.mergeItemStack(itemstack1, 3 + 27, this.inventorySlots.size(), true)) {
+				} else if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
+					if (index < 1 + 27) {
+						if (!this.mergeItemStack(itemstack1, 1 + 27, this.inventorySlots.size(), true)) {
 							return ItemStack.EMPTY;
 						}
 					} else {
-						if (!this.mergeItemStack(itemstack1, 3, 3 + 27, false)) {
+						if (!this.mergeItemStack(itemstack1, 1, 1 + 27, false)) {
 							return ItemStack.EMPTY;
 						}
 					}
@@ -345,7 +336,7 @@ public class EscudoGuiGui extends BalizalandmodModElements.ModElement {
 
 		@Override
 		protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-			this.font.drawString("Escudo Legendario", 45, 5, -12829636);
+			this.font.drawString("N\u00FAcleo del Escudo", 45, 5, -13382656);
 		}
 
 		@Override
@@ -358,7 +349,7 @@ public class EscudoGuiGui extends BalizalandmodModElements.ModElement {
 		public void init(Minecraft minecraft, int width, int height) {
 			super.init(minecraft, width, height);
 			minecraft.keyboardListener.enableRepeatEvents(true);
-			this.addButton(new Button(this.guiLeft + 56, this.guiTop + 57, 60, 20, "Cambiar", e -> {
+			this.addButton(new Button(this.guiLeft + 56, this.guiTop + 57, 60, 20, "Absorber", e -> {
 				BalizalandmodMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(0, x, y, z));
 				handleButtonAction(entity, 0, x, y, z);
 			}));
