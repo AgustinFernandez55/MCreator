@@ -145,6 +145,15 @@
       "locked_code": false,
       "ids": {},
       "registry_name": "sword_type"
+    },
+    {
+      "name": "GuadanaLegendaria",
+      "type": "tool",
+      "sortid": 11,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "guadana_legendaria"
     }
   ],
   "variable_elements": [],
@@ -152,7 +161,8 @@
   "language_map": {
     "en_us": {
       "key.mcreator.tecla_accesorio": "Tecla Accesorio",
-      "item.balizalandmod.escudo": "Escudo"
+      "item.balizalandmod.escudo": "Escudo",
+      "item.balizalandmod.guadana_legendaria": "Guadana Legendaria"
     }
   },
   "workspaceSettings": {
