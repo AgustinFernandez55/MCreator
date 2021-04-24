@@ -13,12 +13,12 @@
       {
         "type": "label",
         "data": {
-          "text": "Escudo Legendario",
+          "text": "Núcleo del Escudo",
           "color": {
-            "value": -12829636,
+            "value": -13382656,
             "falpha": 0.0
           },
-          "name": "Escudo Legendario",
+          "name": "Núcleo del Escudo",
           "x": 171,
           "y": 42
         }
@@ -27,56 +27,32 @@
         "type": "inputslot",
         "data": {
           "inputLimit": {
-            "value": "Items.BONE"
+            "value": ""
+          },
+          "color": {
+            "value": -16751104,
+            "falpha": 0.0
           },
           "id": 0,
           "disableStackInteraction": false,
           "dropItemsWhenNotBound": false,
           "name": "Slot #0",
-          "x": 159,
-          "y": 62
+          "x": 203,
+          "y": 63
         }
       },
       {
         "type": "button",
         "data": {
-          "text": "Cambiar",
+          "text": "Absorber",
           "onClick": {
             "name": "MaterialEscudo"
           },
           "width": 60,
           "height": 20,
-          "name": "Cambiar",
+          "name": "Absorber",
           "x": 182,
           "y": 94
-        }
-      },
-      {
-        "type": "inputslot",
-        "data": {
-          "inputLimit": {
-            "value": ""
-          },
-          "id": 1,
-          "disableStackInteraction": false,
-          "dropItemsWhenNotBound": true,
-          "name": "Slot #1",
-          "x": 204,
-          "y": 62
-        }
-      },
-      {
-        "type": "inputslot",
-        "data": {
-          "inputLimit": {
-            "value": ""
-          },
-          "id": 2,
-          "disableStackInteraction": false,
-          "dropItemsWhenNotBound": true,
-          "name": "Slot #2",
-          "x": 249,
-          "y": 62
         }
       }
     ]

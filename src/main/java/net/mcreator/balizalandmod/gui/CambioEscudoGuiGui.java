@@ -30,12 +30,12 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.Minecraft;
 
-import net.mcreator.balizalandmod.procedures.MaterialEscudoProcedure;
+import net.mcreator.balizalandmod.procedures.EscudoHuesoProcedure;
+import net.mcreator.balizalandmod.procedures.CambioEscudoGuiAbrirProcedure;
 import net.mcreator.balizalandmod.BalizalandmodModElements;
 import net.mcreator.balizalandmod.BalizalandmodMod;
 
@@ -44,11 +44,11 @@ import java.util.Map;
 import java.util.HashMap;
 
 @BalizalandmodModElements.ModElement.Tag
-public class EscudoGuiGui extends BalizalandmodModElements.ModElement {
+public class CambioEscudoGuiGui extends BalizalandmodModElements.ModElement {
 	public static HashMap guistate = new HashMap();
 	private static ContainerType<GuiContainerMod> containerType = null;
-	public EscudoGuiGui(BalizalandmodModElements instance) {
-		super(instance, 2);
+	public CambioEscudoGuiGui(BalizalandmodModElements instance) {
+		super(instance, 12);
 		elements.addNetworkMessage(ButtonPressedMessage.class, ButtonPressedMessage::buffer, ButtonPressedMessage::new,
 				ButtonPressedMessage::handler);
 		elements.addNetworkMessage(GUISlotChangedMessage.class, GUISlotChangedMessage::buffer, GUISlotChangedMessage::new,
@@ -64,7 +64,7 @@ public class EscudoGuiGui extends BalizalandmodModElements.ModElement {
 
 	@SubscribeEvent
 	public void registerContainer(RegistryEvent.Register<ContainerType<?>> event) {
-		event.getRegistry().register(containerType.setRegistryName("escudo_gui"));
+		event.getRegistry().register(containerType.setRegistryName("cambio_escudo_gui"));
 	}
 	public static class GuiContainerModFactory implements IContainerFactory {
 		public GuiContainerMod create(int id, PlayerInventory inv, PacketBuffer extraData) {
@@ -121,7 +121,18 @@ public class EscudoGuiGui extends BalizalandmodModElements.ModElement {
 					}
 				}
 			}
-			this.customSlots.put(0, this.addSlot(new SlotItemHandler(internal, 0, 78, 27) {
+			this.customSlots.put(0, this.addSlot(new SlotItemHandler(internal, 0, 21, 29) {
+				@Override
+				public ItemStack onTake(PlayerEntity entity, ItemStack stack) {
+					ItemStack retval = super.onTake(entity, stack);
+					GuiContainerMod.this.slotChanged(0, 1, 0);
+					return retval;
+				}
+
+				@Override
+				public boolean isItemValid(ItemStack stack) {
+					return false;
+				}
 			}));
 			int si;
 			int sj;
@@ -130,6 +141,11 @@ public class EscudoGuiGui extends BalizalandmodModElements.ModElement {
 					this.addSlot(new Slot(inv, sj + (si + 1) * 9, 0 + 8 + sj * 18, 0 + 84 + si * 18));
 			for (si = 0; si < 9; ++si)
 				this.addSlot(new Slot(inv, si, 0 + 8 + si * 18, 0 + 142));
+			{
+				Map<String, Object> $_dependencies = new HashMap<>();
+				$_dependencies.put("entity", entity);
+				CambioEscudoGuiAbrirProcedure.executeProcedure($_dependencies);
+			}
 		}
 
 		public Map<Integer, Slot> get() {
@@ -265,14 +281,10 @@ public class EscudoGuiGui extends BalizalandmodModElements.ModElement {
 			if (!bound && (playerIn instanceof ServerPlayerEntity)) {
 				if (!playerIn.isAlive() || playerIn instanceof ServerPlayerEntity && ((ServerPlayerEntity) playerIn).hasDisconnected()) {
 					for (int j = 0; j < internal.getSlots(); ++j) {
-						if (j == 0)
-							continue;
 						playerIn.dropItem(internal.extractItem(j, internal.getStackInSlot(j).getCount(), false), false);
 					}
 				} else {
 					for (int i = 0; i < internal.getSlots(); ++i) {
-						if (i == 0)
-							continue;
 						playerIn.inventory.placeItemBackInInventory(playerIn.world,
 								internal.extractItem(i, internal.getStackInSlot(i).getCount(), false));
 					}
@@ -303,7 +315,7 @@ public class EscudoGuiGui extends BalizalandmodModElements.ModElement {
 			this.xSize = 176;
 			this.ySize = 166;
 		}
-		private static final ResourceLocation texture = new ResourceLocation("balizalandmod:textures/escudo_gui.png");
+		private static final ResourceLocation texture = new ResourceLocation("balizalandmod:textures/cambio_escudo_gui.png");
 		@Override
 		public void render(int mouseX, int mouseY, float partialTicks) {
 			this.renderBackground();
@@ -336,7 +348,7 @@ public class EscudoGuiGui extends BalizalandmodModElements.ModElement {
 
 		@Override
 		protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-			this.font.drawString("N\u00FAcleo del Escudo", 45, 5, -13382656);
+			this.font.drawString("Cambio de Escudo", 42, 7, -16777216);
 		}
 
 		@Override
@@ -349,10 +361,6 @@ public class EscudoGuiGui extends BalizalandmodModElements.ModElement {
 		public void init(Minecraft minecraft, int width, int height) {
 			super.init(minecraft, width, height);
 			minecraft.keyboardListener.enableRepeatEvents(true);
-			this.addButton(new Button(this.guiLeft + 56, this.guiTop + 57, 60, 20, "Absorber", e -> {
-				BalizalandmodMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(0, x, y, z));
-				handleButtonAction(entity, 0, x, y, z);
-			}));
 		}
 	}
 
@@ -442,13 +450,6 @@ public class EscudoGuiGui extends BalizalandmodModElements.ModElement {
 		// security measure to prevent arbitrary chunk generation
 		if (!world.isBlockLoaded(new BlockPos(x, y, z)))
 			return;
-		if (buttonID == 0) {
-			{
-				Map<String, Object> $_dependencies = new HashMap<>();
-				$_dependencies.put("entity", entity);
-				MaterialEscudoProcedure.executeProcedure($_dependencies);
-			}
-		}
 	}
 
 	private static void handleSlotAction(PlayerEntity entity, int slotID, int changeType, int meta, int x, int y, int z) {
@@ -456,5 +457,12 @@ public class EscudoGuiGui extends BalizalandmodModElements.ModElement {
 		// security measure to prevent arbitrary chunk generation
 		if (!world.isBlockLoaded(new BlockPos(x, y, z)))
 			return;
+		if (slotID == 0 && changeType == 1) {
+			{
+				Map<String, Object> $_dependencies = new HashMap<>();
+				$_dependencies.put("entity", entity);
+				EscudoHuesoProcedure.executeProcedure($_dependencies);
+			}
+		}
 	}
 }
